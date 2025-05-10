@@ -1,0 +1,18 @@
+[submodule "frontend-service"]
+	path = frontend-service
+	url = https://github.com/Sesans/frontend-service_TrackHub.git
+[submodule "login_authAPI"]
+	path = login_authAPI
+	url = https://github.com/Sesans/login_authAPI.git
+[submodule "notification-service"]
+	path = notification-service
+	url = https://github.com/Sesans/notification-service.git
+[submodule "music-service"]
+	path = music-service
+	url = https://github.com/Sesans/music-service.git
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/Sesans/frontend-service_TrackHub.git
+[submodule "API_userManagement"]
+	path = API_userManagement
+	url = https://github.com/Sesans/login_authAPI.git
