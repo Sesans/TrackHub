@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   api-gateway:
     build:
@@ -109,3 +107,13 @@ services:
     networks:
       - rede2
     restart: always
+
+volumes:
+  db-data1:
+  db-data2:
+  db-data3:
+
+networks:
+  rede1:
+  rede2:
+  rede3:
