@@ -1,27 +1,31 @@
-services: 
+version: "3.9"
+
+services:
   api-gateway:
-    build: 
+    build:
       context: ./api-gateway
     container_name: api-gateway
     ports:
       - "8080:8080"
     networks:
       - rede2
+    restart: always
 
   auth-service:
     build:
       context: ./API_userManagement
     container_name: auth-service
     ports:
-     - "8081:8080"
+      - "8081:8080"
     environment:
       DATABASE_URL: jdbc:postgresql://postgres_db2:5432/user_manager
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
     depends_on:
-     - postgres_db2
+      - postgres_db2
     networks:
-     - rede2
+      - rede2
+    restart: always
 
   notification-service:
     build:
@@ -32,34 +36,34 @@ services:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       APP_EMAIL: ${APP_EMAIL}
-      APP_PASSWORD: ${APP_PASSWORD} 
+      APP_PASSWORD: ${APP_PASSWORD}
       APP_URL: ${APP_URL}
     depends_on:
-     - postgres_db1
+      - postgres_db1
     networks:
-     - rede1
+      - rede1
+    restart: always
 
   music-service:
     build:
       context: ./music-service
     container_name: music-service
     ports:
-     - "8082:8080"
+      - "8082:8080"
     environment:
       DATABASE_URL: jdbc:postgresql://postgres_db3:5432/music_manager
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
     depends_on:
-     - postgres_db3
+      - postgres_db3
     networks:
-     - rede3
+      - rede3
+    restart: always
 
   postgres_db1:
     image: postgres:14
     container_name: postgres_db1
     restart: always
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -67,14 +71,12 @@ services:
     volumes:
       - db-data1:/var/lib/postgresql/data
     networks:
-     - rede1
+      - rede1
 
   postgres_db2:
     image: postgres:14
     container_name: postgres_db2
     restart: always
-    ports:
-      - "5433:5432"
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -82,14 +84,12 @@ services:
     volumes:
       - db-data2:/var/lib/postgresql/data
     networks:
-     - rede2
+      - rede2
 
   postgres_db3:
     image: postgres:14
     container_name: postgres_db3
     restart: always
-    ports:
-      - "5434:5432"
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -97,26 +97,15 @@ services:
     volumes:
       - db-data3:/var/lib/postgresql/data
     networks:
-     - rede3
-  
+      - rede3
+
   frontend:
     build: ./frontend
     container_name: frontend
     ports:
-     - "5500:80"
+      - "5500:80"
     depends_on:
-     - auth-service
+      - auth-service
     networks:
-     - rede2
-    volumes:
-     - ./frontend:/usr/share/nginx/html
-
-volumes:
-  db-data1:
-  db-data2:
-  db-data3:
-
-networks:
-  rede1:
-  rede2:
-  rede3:
+      - rede2
+    restart: always
