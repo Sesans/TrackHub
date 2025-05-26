@@ -6,6 +6,12 @@ jobs:
   test-and-build:
     name: Test all services
     runs-on: ubuntu-latest
+    env:
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      APP_EMAIL: ${{ secrets.APP_EMAIL }}
+      APP_PASSWORD: ${{ secrets.APP_PASSWORD }}
+      APP_URL: ${{ secrets.APP_URL }}
 
     services:
       postgres-auth:
