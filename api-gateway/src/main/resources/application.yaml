@@ -15,11 +15,29 @@ spring:
           uri: http://auth-service:8080/
           predicates:
             - Path=/auth/**,/users/**
-            - Method=GET,POST,OPTIONS
+            - Method=GET, POST, OPTIONS
 
 
         - id: music-service
           uri: http://music-service:8080/
           predicates:
-            - Path=/musics/**, /artists/**
+            - Path=/musics/**,/artists/**,/admin/**
             - Method=GET, POST, DELETE, OPTIONS
+
+management:
+  metrics:
+    tags:
+      service: ${spring.application.name}
+  server:
+    port: 9090
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: 'health,prometheus'
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    prometheus:
+      enabled: true

@@ -13,7 +13,6 @@ public class CorsConfig {
 
     @Bean
     public CorsWebFilter corsWebFilter() {
-        System.out.println(">>>>>cors carregado!!!!");
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
         configuration.setAllowedOrigins(List.of("http://localhost:5500"));
