@@ -17,6 +17,7 @@ services:
       DATABASE_URL: jdbc:postgresql://postgres_db2:5432/user_manager
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
+      APP_URL: ${APP_URL}
     depends_on:
       - postgres_db2
     networks:
@@ -100,17 +101,39 @@ services:
     container_name: frontend
     ports:
      - "5500:80"
-    depends_on:
-     - auth-service
     networks:
      - backend
     volumes:
      - ./frontend:/usr/share/nginx/html
      
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    networks:
+      - backend
+    ports:
+      - 9091:9090
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - backend
+    ports:
+      - 3000:3000
+    
 volumes:
   db-data1:
   db-data2:
   db-data3:
+  prometheus-data:
+  grafana-data:
 
 networks:
   backend:
+    driver: bridge
